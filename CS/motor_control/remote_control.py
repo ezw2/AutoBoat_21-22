@@ -6,6 +6,7 @@ import navio.rcinput
 import navio.pwm
 
 import navio.util
+
 navio.util.check_apm()
 rcin = navio.rcinput.RCInput()
 #
