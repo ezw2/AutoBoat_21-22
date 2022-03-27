@@ -1,25 +1,28 @@
 import pyzed.sl as sl
-# import cv2
-# import numpy as np
+import cv2
+import numpy as np
 
 def main():
     #############################################################################################################
+    
     # Create a Camera object
     zed = sl.Camera()
 
     # Create a InitParameters object and set configuration parameters
     init_params = sl.InitParameters()
     init_params.camera_resolution = sl.RESOLUTION.HD720  # Use HD720 video mode
-    init_params.depth_mode = sl.DEPTH_MODE.PERFORMANCE
-    init_params.coordinate_units = sl.UNIT.METER
-    init_params.sdk_verbose = True
+    init_params.depth_mode = sl.DEPTH_MODE.PERFORMANCE # Set the depth mode to performance (fastest)
+    init_params.coordinate_units = sl.UNIT.METER # Sets units in meters
+    init_params.sdk_verbose = True # Sets verbose mode
 
     # Open the camera
     err = zed.open(init_params)
     if err != sl.ERROR_CODE.SUCCESS:
         exit(1)
+
     #############################################################################################################
 
+    # We will define the object detection parameters. Notice that the object tracking needs the positional tracking to be able to track the objects in the world reference frame.
     # Define the Objects detection module parameters
     obj_param = sl.ObjectDetectionParameters()
     obj_param.enable_tracking=True
@@ -30,16 +33,20 @@ def main():
     camera_infos = zed.get_camera_information()
     if obj_param.enable_tracking :
         positional_tracking_param = sl.PositionalTrackingParameters()
-        #positional_tracking_param.set_as_static = True
+        #positional_tracking_param.set_as_static = True # This setting allows you define the camera as static. If true, it will not move in the environment. This allows you to set its position using the initial world transform.
         positional_tracking_param.set_floor_as_origin = True
         zed.enable_positional_tracking(positional_tracking_param)
 
     print("Object Detection: Loading Module...")
 
     ##############################################################################################################
+    
     # Then we can start the module, it will load the model. This operation can take a few seconds. 
     # The first time the module is used, the model will be optimized for the hardware and will take more time. 
     # This operation is done only once.
+
+    # choose a detection model, if none is specified then it defaults to MULTI_CLASS_BOX
+    # obj_params.detection_model = sl.DETECTION_MODEL.MULTI_CLASS_BOX
     
     err = zed.enable_object_detection(obj_param)
     if err != sl.ERROR_CODE.SUCCESS :
@@ -48,7 +55,14 @@ def main():
         exit(1)
 
     #The object detection is now activated.
+
     ###############################################################################################################
+
+    # The object confidence threshold can be adjusted at runtime to 
+    # select only the revelant objects depending on the scene complexity. 
+    # Since the parameters have been set to image_sync, for each grab call, 
+    # the image will be fed into the AI module and will output the 
+    # detections for each frames.
 
     # Detection Output
     objects = sl.Objects()
@@ -61,6 +75,8 @@ def main():
         if objects.is_new :
             obj_array = objects.object_list
             print(str(len(obj_array))+" Object(s) detected\n")
+
+            # Prints out the object information for first object.
             if len(obj_array) > 0 :
                 first_object = obj_array[0]
                 print("First object attributes:")
