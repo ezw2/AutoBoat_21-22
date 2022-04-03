@@ -104,11 +104,14 @@ def main():
                     if obj.mask.is_init():
                         print(" 2D mask available")
 
+                    # 2D bounding box of the person represented as four 2D coordinate points starting at the top left corner and rotation clockwise.
+                    # Coordinates are expressed in pixels on the original image resolution, where [0,0] is the top left corner.
                     print(" Bounding Box 2D ")
                     bounding_box_2d = obj.bounding_box_2d
                     for it in bounding_box_2d :
                         print("    "+str(it),end='')
                     
+                    # 3D bounding box of the person represented as eight 3D coordinate points.
                     print("\n Bounding Box 3D ")
                     bounding_box = obj.bounding_box
                     for it in bounding_box :
