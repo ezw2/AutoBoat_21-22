@@ -25,8 +25,3 @@ def ShouldAdjust():
     if (abs(OPTIMAL_POSITION-curr_pos)>ROOM_FOR_ERROR ):
         move()
         TIME=0
-
-
-def ():
-#knowing the optimal position, it should call should adjust 
-#
