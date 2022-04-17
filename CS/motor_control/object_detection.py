@@ -1,3 +1,7 @@
+"""
+This file contains a commented version of the ZED Object Detection tutorial
+"""
+
 import pyzed.sl as sl
 import cv2
 import numpy as np
@@ -47,7 +51,7 @@ def main():
 
     # To choose a specific detection model by setting the detection_model field.
     # If none is specified then it defaults to MULTI_CLASS_BOX
-    # obj_params.detection_model = sl.DETECTION_MODEL.MULTI_CLASS_BOX
+    # obj_param.detection_model = sl.DETECTION_MODEL.MULTI_CLASS_BOX
     
     # Enable object detection with initialization parameters
     err = zed.enable_object_detection(obj_param)

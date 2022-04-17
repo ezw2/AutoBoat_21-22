@@ -1,4 +1,6 @@
-"""Handles the remote control aspect of the boat's movement."""
+"""
+Handles the remote control aspect of the boat's movement.
+"""
 
 #Imports to read the position of the switch
 import navio.rcinput
