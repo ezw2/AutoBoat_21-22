@@ -10,4 +10,10 @@ mode = Mode.REMOTE_CONTROL
 task = Task.DETERMINE_TASK
 
 # Task tracking
-is_mnc_complete = False
+MNC = False
+AVOID_THE_CROWD = False
+FIND_A_SEAT= False
+RETURN_HOME= False
+SKEEBALL= False
+SNACK_RUN= False
+WATER_BLAST= False

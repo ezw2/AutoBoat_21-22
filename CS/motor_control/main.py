@@ -16,11 +16,11 @@ def main_control_loop():
         remote_control.execute()
 
     # If mode autonomous, call autonomous execute
-
     if SFR.mode == Mode.AUTONOMOUS:
         autonomous_control.execute()
     pass
 
 
 if __name__ == "__main__":
-    main_control_loop()
+    while True:
+        main_control_loop()
